@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "655332935385",
+    "firebase_url": "https://ttsc-944a8.firebaseio.com",
+    "project_id": "ttsc-944a8",
+    "storage_bucket": "ttsc-944a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655332935385:android:f92cf77b4270f5ce88a0c8",
+        "android_client_info": {
+          "package_name": "com.tanyadinesh00.ttsc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655332935385-uu59qodr3ti5pm6gugfi6eahv0sa5lns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSGYc25BaJgq8NioB17te8k-J9iFlkvcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655332935385-uu59qodr3ti5pm6gugfi6eahv0sa5lns.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655332935385-uosensj9jurvlqhirae6dhtgi5ahqtm0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tanyadinesh00.sctt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
