@@ -17,14 +17,6 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   String selectedGame = 'New Game';
 
-  Color activeColor = kBottomContainerColour;
-
-  void isActive() {
-    setState(() {
-      activeColor = Colors.indigo;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +39,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 final gameCard = GameListCard(
                   onTap: () {
                     selectedGame = 'new_game';
-                    isActive();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return SettingsScreen(
+                        gameID: selectedGame,
+                      );
+                    }));
                   },
-                  color: activeColor,
                   text: 'New Game',
+                  color: Colors.indigo,
                 );
                 gameCards.add(gameCard);
                 for (var game in games) {
@@ -60,6 +57,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     text: gameName,
                     onTap: () {
                       selectedGame = gameID;
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SettingsScreen(
+                          gameID: selectedGame,
+                        );
+                      }));
                     },
                     color: kBottomContainerColour,
                   );
@@ -75,12 +78,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               },
             ),
             BottomButton(
-              buttonTitle: 'Start Game',
+              buttonTitle: 'Start a New Game',
               onTap: () {
-                print(selectedGame);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return SettingsScreen(
-                    gameID: selectedGame,
+                    gameID: 'new_game',
                   );
                 }));
               },
