@@ -3,7 +3,6 @@ import 'package:ttsc/components/ReusableCard.dart';
 import 'package:ttsc/components/bottom_button.dart';
 import 'package:ttsc/components/game_list_card.dart';
 import 'package:ttsc/constants.dart';
-import 'package:ttsc/screens/score_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ttsc/screens/settings_screen.dart';
 
@@ -47,7 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 List<GameListCard> gameCards = [];
                 final gameCard = GameListCard(
                   onTap: () {
-                    selectedGame = 'New Game';
+                    selectedGame = 'new_game';
                     isActive();
                   },
                   color: activeColor,
@@ -56,10 +55,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 gameCards.add(gameCard);
                 for (var game in games) {
                   final gameName = game.data['name'];
+                  final gameID = game.documentID;
                   final gameCard = GameListCard(
                     text: gameName,
                     onTap: () {
-                      selectedGame = gameName;
+                      selectedGame = gameID;
                     },
                     color: kBottomContainerColour,
                   );
@@ -80,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 print(selectedGame);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return SettingsScreen(
-                    gameName: selectedGame,
+                    gameID: selectedGame,
                   );
                 }));
               },
