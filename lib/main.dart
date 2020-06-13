@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ttsc/screens/settings_screen.dart';
 import 'package:ttsc/screens/welcome_screen.dart';
 import 'package:ttsc/screens/score_screen.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         ScoreScreen.id: (context) => ScoreScreen(),
+        SettingsScreen.id: (context) => SettingsScreen(),
       },
     );
   }

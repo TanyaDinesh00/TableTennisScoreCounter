@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/logic.dart';
-import 'settings_page.dart';
+import 'settings_screen.dart';
 import '../components/ReusableCard.dart';
 
 class ScoreScreen extends StatefulWidget {
