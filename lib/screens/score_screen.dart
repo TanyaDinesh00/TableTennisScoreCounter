@@ -2,36 +2,86 @@ import 'package:flutter/material.dart';
 import '../services/logic.dart';
 import 'settings_screen.dart';
 import '../components/ReusableCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = Firestore.instance;
 
 class ScoreScreen extends StatefulWidget {
   static const String id = 'main_screen';
+
+  ScoreScreen({this.currentGameID});
+  final String currentGameID;
   @override
   _ScoreScreenState createState() => _ScoreScreenState();
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
   Score s = new Score();
+  String docID, gameName, player1, player2;
+
+  void getData() async {
+    await for (var snapshots in _firestore.collection('games').snapshots()) {
+      for (var game in snapshots.documents) {
+        if (game.documentID == widget.currentGameID) {
+          docID = game.documentID;
+
+          setState(() {
+            gameName = game.data['name'];
+            player1 = game.data['player1'];
+            player2 = game.data['player2'];
+
+            s.gameNum = game.data['gameNum'];
+            s.score1 = game.data['score1'];
+            s.score2 = game.data['score2'];
+            s.won1 = game.data['won1'];
+            s.won2 = game.data['won2'];
+
+            s.serve = game.data['serve'];
+            s.serve1 = game.data['serve1'];
+            s.serve2 = game.data['serve2'];
+
+            s.victory = game.data['victory'];
+            s.rounds = game.data['rounds'];
+            s.end = game.data['end'];
+            s.count = game.data['count'];
+            s.s_end = game.data['s_end'];
+          });
+        }
+      }
+    }
+  }
+
+  void updateData() {
+    print('updating ');
+    _firestore.collection('games').document(docID).updateData({
+      'gameNum': s.gameNum,
+      'score1': s.score1,
+      'score2': s.score2,
+      'won1': s.won1,
+      'won2': s.won2,
+
+      'serve': s.serve,
+      'serve1': s.serve1,
+      'serve2': s.serve2,
+
+      'victory': s.victory,
+      'rounds': s.rounds,
+      'end': s.end,
+      'count': s.count,
+      's_end': s.s_end,
+      //'service': p4.text,
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   void buttonAction(int n) {
-//    Alert(
-//      context: context,
-//      //type: AlertType.success,
-//      title: "Series WON!",
-//      desc: "The Series was won by TanManPRO",
-//      buttons: [
-//        DialogButton(
-//          color: Color(0xFF0A0E21),
-//          child: Text(
-//            "Reset Series",
-//            style: TextStyle(color: Colors.white, fontSize: 20),
-//          ),
-//          onPressed: () {
-//            //buttonAction(4);
-//          },
-//          width: 120,
-//        )
-//      ],
-//    ).show();
     setState(() {
       if (n == 1) {
         s.s1();
@@ -58,8 +108,12 @@ class _ScoreScreenState extends State<ScoreScreen> {
               icon: const Icon(Icons.menu),
               onPressed: () {
                 //Scaffold.of(context).openDrawer();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SettingsScreen(
+                              gameID: docID,
+                            )));
               },
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
@@ -104,7 +158,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
-                      'TanManPro ',
+                      '$player1 ',
                       style: TextStyle(fontSize: 27, color: Colors.white),
                     ),
                     Text(
@@ -112,7 +166,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                       style: TextStyle(fontSize: 27, color: Colors.white),
                     ),
                     Text(
-                      'DineshBE ',
+                      ' $player2',
                       style: TextStyle(fontSize: 27, color: Colors.white),
                     ),
                   ],
@@ -132,6 +186,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           onPressed: () {
                             if (!s.s_end) {
                               buttonAction(1);
+                              updateData();
                             }
                           },
                           shape: RoundedRectangleBorder(
@@ -158,13 +213,14 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           onPressed: () {
                             if (!s.s_end) {
                               buttonAction(1);
+                              updateData();
                             }
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8.0))),
                           child: Text(
-                            s.get_score1(),
+                            '${s.score1}\n${s.serve1}',
                             style: TextStyle(color: Colors.black, fontSize: 50),
                             textAlign: TextAlign.center,
                           ),
@@ -180,6 +236,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           onPressed: () {
                             if (!s.s_end) {
                               buttonAction(2);
+                              updateData();
                             }
                           },
                           shape: RoundedRectangleBorder(
@@ -201,6 +258,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           onPressed: () {
                             if (!s.s_end) {
                               buttonAction(2);
+                              updateData();
                             }
                           },
                           shape: RoundedRectangleBorder(
@@ -232,11 +290,13 @@ class _ScoreScreenState extends State<ScoreScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           buttonAction(3);
+          updateData();
         },
         child: GestureDetector(
           child: Text('Reset'),
           onLongPress: () {
             buttonAction(4);
+            updateData();
           },
         ),
       ),

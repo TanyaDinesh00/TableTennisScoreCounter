@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ttsc/screens/score_screen.dart';
-import '../components/ReusableCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../constants.dart';
+import 'package:ttsc/components/wide_button.dart';
 
 final _firestore = Firestore.instance;
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({this.gameID});
-  final gameID;
+  var gameID;
   static const String id = 'settings_page';
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -45,28 +43,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
           p3.text = '$sets';
           p4.text = '$service';
         }
-        ;
       }
     }
   }
 
-  addData() {
+  addData() async {
     if (p0.text == '') {
       _showMyDialog();
       return;
     }
-    _firestore.collection('games').add({
+    var docRef = await _firestore.collection('games').add({
       'name': p0.text,
       'player1': p1.text,
       'player2': p2.text,
       'sets': p3.text,
       'service': p4.text,
+      'gameNum': 0,
+      'won1': 0,
+      'won2': 0,
+      'victory': '',
+      'rounds': '',
+      's_end': false,
+      'score1': 0,
+      'score2': 0,
+      'serve1': '*',
+      'serve2': '',
+      'end': false,
+      'count': 0,
+      'serve': 1,
     }).catchError((e) {
       print(e);
+    });
+    print(docRef.documentID);
+    setState(() {
+      widget.gameID = docRef.documentID;
     });
   }
 
   updateData() {
+    print('updating ');
     _firestore.collection('games').document(docID).updateData({
       'name': p0.text,
       'player1': p1.text,
@@ -180,42 +195,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            GestureDetector(
+            WideButton(
+              text: 'Start',
+              color: Colors.green,
+              onTap: () {
+                if (widget.gameID != 'new_game') {
+                  updateData();
+                } else {
+                  addData();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ScoreScreen(
+                    currentGameID: widget.gameID,
+                  );
+                }));
+              },
+            ),
+            WideButton(
+              text: 'Save',
+              color: Colors.blue,
+              onTap: () {
+                if (widget.gameID != 'new_game') {
+                  updateData();
+                } else {
+                  addData();
+                }
+              },
+            ),
+            WideButton(
+              text: 'Delete',
+              color: Colors.red,
               onTap: () {
                 deleteData();
               },
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'Delete ',
-                    style: kLargeButtonTextStyle,
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.red,
-                ),
-                margin:
-                    EdgeInsets.only(top: 5, bottom: 80, left: 20, right: 20),
-                padding: EdgeInsets.all(10),
-                //height: kBottomContainerHeight,
-              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (widget.gameID != 'new_game') {
-            updateData();
-          } else {
-            addData();
-          }
-
-          //Navigator.pushNamed(context, ScoreScreen.id);
-        },
-        child: Text('SAVE'),
-      ),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () {
+//          if (widget.gameID != 'new_game') {
+//            updateData();
+//          } else {
+//            addData();
+//          }
+//
+//          //Navigator.pushNamed(context, ScoreScreen.id);
+//        },
+//        child: Text('SAVE'),
+//      ),
     );
   }
 

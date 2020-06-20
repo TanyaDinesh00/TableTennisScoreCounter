@@ -36,20 +36,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               builder: (context, snapshot) {
                 final games = snapshot.data.documents;
                 List<GameListCard> gameCards = [];
-                final gameCard = GameListCard(
-                  onTap: () {
-                    selectedGame = 'new_game';
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return SettingsScreen(
-                        gameID: selectedGame,
-                      );
-                    }));
-                  },
-                  text: 'New Game',
-                  color: Colors.indigo,
-                );
-                gameCards.add(gameCard);
+//                final gameCard = GameListCard(
+//                  onTap: () {
+//                    selectedGame = 'new_game';
+//                    Navigator.push(context,
+//                        MaterialPageRoute(builder: (context) {
+//                      return SettingsScreen(
+//                        gameID: selectedGame,
+//                      );
+//                    }));
+//                  },
+//                  text: 'New Game',
+//                  color: Colors.indigo,
+//                );
+//                gameCards.add(gameCard);
                 for (var game in games) {
                   final gameName = game.data['name'];
                   final gameID = game.documentID;

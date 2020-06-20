@@ -1,19 +1,19 @@
 class Score {
   int score1 = 0, score2 = 0;
-  String serve1 = "*", serve2 = "", Victory = "", rounds = "";
+  String serve1 = "*", serve2 = "", victory = "", rounds = "";
   bool end = false;
   int serve = 1, count = 0;
-  int game = 1, won1 = 0, won2 = 0;
+  int gameNum = 1, won1 = 0, won2 = 0;
   bool s_end = false;
   //bool justwon = false;
 
   void hardReset() {
-    game = 0;
+    //gameNum = 0;
     won1 = 0;
     won2 = 0;
-    Victory = "";
+    victory = "";
     rounds = "";
-    game = 1;
+    gameNum = 1;
     s_end = false;
     reset();
   }
@@ -23,18 +23,18 @@ class Score {
       end = true;
       score1++;
       rounds += ' $score1-$score2 ';
-      Victory = "TanManPro Wins Game: $game";
+      victory = "TanManPro Wins Game: $gameNum";
       won1 += 1;
-      game += 1;
+      gameNum += 1;
       if (won1 == 3 || won2 == 3) {
         s_end = true;
-        Victory = "TanManPRO Wins the Series";
+        victory = "TanManPRO Wins the Series";
       }
       reset();
       return;
     }
     if (end == false) {
-      Victory = "";
+      victory = "";
     } // Resetting victory
     if (end == false && (score1 >= 10 && score2 >= 10)) {
       score1++;
@@ -55,18 +55,18 @@ class Score {
       end = true;
       score2++;
       rounds += ' $score1-$score2 ';
-      Victory = "DineshBE Wins Game: $game";
+      victory = "DineshBE Wins Game: $gameNum";
       won2 += 1;
-      game += 1;
+      gameNum += 1;
       if (won1 == 3 || won2 == 3) {
         s_end = true;
-        Victory = "DineshBE Wins the Series";
+        victory = "DineshBE Wins the Series";
       }
       reset();
       return;
     }
     if (end == false) {
-      Victory = "";
+      victory = "";
     }
     if (end == false && (score1 >= 10 && score2 >= 10)) {
       score2++;
@@ -83,7 +83,7 @@ class Score {
   }
 
   void reset() {
-    if (game % 2 == 1) {
+    if (gameNum % 2 == 1) {
       score1 = 0;
       score2 = 0;
       serve1 = "*";
@@ -118,11 +118,11 @@ class Score {
   }
 
   String get_game() {
-    return '$game';
+    return '$gameNum';
   }
 
   String get_vic() {
-    return '$Victory';
+    return '$victory';
   }
 
   String get_score1() {
