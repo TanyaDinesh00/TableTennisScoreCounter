@@ -5,6 +5,8 @@ class Score {
   int serve = 1, count = 0;
   int gameNum = 1, won1 = 0, won2 = 0;
   bool s_end = false;
+  int service = 1;
+  int bestOf = 5;
   //bool justwon = false;
 
   void hardReset() {
@@ -15,6 +17,7 @@ class Score {
     rounds = "";
     gameNum = 1;
     s_end = false;
+
     reset();
   }
 
@@ -83,23 +86,21 @@ class Score {
   }
 
   void reset() {
-    if (gameNum % 2 == 1) {
-      score1 = 0;
-      score2 = 0;
+    if ((gameNum % 2 == 1 && service == 1) ||
+        (gameNum % 2 == 0 && service == 2)) {
       serve1 = "*";
       serve2 = "";
       serve = 1;
-      end = false;
-      count = 0;
-    } else {
-      score1 = 0;
-      score2 = 0;
+    } else if ((gameNum % 2 == 0 && service == 1) ||
+        (gameNum % 2 == 1 && service == 2)) {
       serve1 = "";
       serve2 = "*";
       serve = 2;
-      end = false;
-      count = 0;
     }
+    score1 = 0;
+    score2 = 0;
+    end = false;
+    count = 0;
   }
 
   void cs() {

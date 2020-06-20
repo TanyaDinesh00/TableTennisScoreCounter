@@ -14,7 +14,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String gameName, player1, player2, sets, service, docID;
+  String gameName, player1, player2, sets, docID;
+  int service;
   var p0 = TextEditingController();
   var p1 = TextEditingController();
   var p2 = TextEditingController();
@@ -57,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       'player1': p1.text,
       'player2': p2.text,
       'sets': p3.text,
-      'service': p4.text,
+      'service': int.parse(p4.text),
       'gameNum': 0,
       'won1': 0,
       'won2': 0,
@@ -87,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       'player1': p1.text,
       'player2': p2.text,
       'sets': p3.text,
-      'service': p4.text,
+      'service': int.parse(p4.text),
     }).catchError((e) {
       print(e);
     });

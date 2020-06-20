@@ -45,6 +45,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
             s.end = game.data['end'];
             s.count = game.data['count'];
             s.s_end = game.data['s_end'];
+            s.service = game.data['service'];
           });
         }
       }
@@ -63,6 +64,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
       'serve': s.serve,
       'serve1': s.serve1,
       'serve2': s.serve2,
+      'service': s.service,
 
       'victory': s.victory,
       'rounds': s.rounds,
